@@ -36,4 +36,12 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+    
+    /**
+     * このユーザが所有する投稿。（ Bookモデルとの関係を定義）
+     */
+    public function books()
+    {
+        return $this->hasMany(Book::class);
+    }
 }
