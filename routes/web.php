@@ -11,6 +11,11 @@
 |
 */
 
+
+//聞きたいこと…コントローラーの設定方法
+//現在のエラー：booklist.blade.phpのコントローラーを作ったがどうやら、パラメーターが渡せていない
+// 色々変えてはみたが、うまくはいかなかったという現状。
+
 Route::get('/', 'BooksController@index');
 
 // ユーザ登録に関するルーティング
@@ -24,6 +29,23 @@ Route::get('logout', 'Auth\LoginController@logout')->name('logout.get');
 
 //認証している人でなければならないルーティング設定　middleware auth でそれを指定している。
 Route::group(['middleware' => ['auth']], function () {
-// また、bookscontrolerのうち一部のみ使えることを記載している。resourceで基本機能は搭載しておいた。
-Route::resource('books', 'BooksController');
+Route::get('books', 'BooksController@index')->name('books.index');
+// ユーザー一覧。showの補助ページ
+   // また、bookscontrolerのうち一部のみ使えることを記載している。resourceを使わずに表してみる。
+Route::get('books/create', 'BooksController@create')->name('books.create');
+//新規作成用のフォームページ
+Route::get('books/booklist','BooksController@booklist')->name('books.booklist');
+
+Route::get('books/{book}','BooksController@show')->name('books.show');
+//個別詳細ページを表示する。その際、その個別の本のidを取ってくる必要があるため、{id}を指定する。
+Route::post('books','BooksController@store')->name('books.store');
+// 新規登録を処理する。ここで、idはこれから付与するから、idを指定する必要がない。
+Route::put('books/{book}', 'BooksController@update')->name('books.update');
+//更新処理。
+Route::delete('books/{book}', 'BooksController@destroy')->name('books.destroy');
+//削除処理。
+Route::get('books/{book}/edit', 'BooksController@edit')->name('books.edit');
+// edit: 更新用のフォームページ。name は「名前つきルート」というもので、特定のルートへのURLを生成したり、リダイレクトしたりする。
+
+    
 });

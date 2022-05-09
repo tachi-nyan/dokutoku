@@ -1,3 +1,34 @@
 .background{
     background-image:url("");
 }
+
+.rateoya {
+  height: 100px;                       /* 高さ */
+}
+.rate {
+  position   : relative;               /* 指定した分だけ相対的に移動 */
+  font-size: 100px;              /* フォントサイズ */
+  letter-spacing : 0px;                /* 文字間隔 */
+}
+.rate:before{
+  position: absolute;                  /* 親要素を基準 */
+  display: inline-block;               /* ブロック要素 */
+  color: #999999;               /* ★の色 */
+  white-space:nowrap;                  /* 改行不可 */
+  top: 0;                              /* 上限より表示 */
+  left: 0;                             /* 左端より表示 */
+  line-height:1em;                     /* 高さを指定 */
+  content:"★★★★★★";      /* ★の指定 */
+}
+.rate:after{
+  position: absolute;                  /* 親要素を基準 */
+  display: inline-block;               /* ブロック要素 */
+  color: #ffff1a;               /* ★の色 */
+  white-space:nowrap;                  /* 改行不可 */
+  top: 0;                              /* 上限より表示 */
+  left: 0;                             /* 左端より表示 */
+  line-height:1em;                     /* 高さを指定 */
+  overflow:hidden;                     /* オーバーフロー部分は非表示 */
+  width: 200px;        /* 評価★の幅 */
+  content:"★★★★★★";      /* ★の指定 */
+}

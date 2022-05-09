@@ -19,7 +19,7 @@ class CreateBooksTable extends Migration
             $table->string('title');
             $table->string('memo');
             $table->integer('price');
-            $table->string('image');
+            $table->string('image')->nullable();;
             $table->timestamps();
             
             // 外部キー制約
