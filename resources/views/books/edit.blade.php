@@ -6,7 +6,9 @@
 
     <div class="row">
         <div class="col-6">
-            {!! Form::model($book, ['route' => ['books.update', $book->id], 'method' => 'put']) !!}
+            {!! Form::model($book, ['route' => ['books.update', $book->id], 'method' => 'put', 'files' => true]) !!}
+
+            <input type="file" name="image">
 
                 <div class="form-group">
                     {!! Form::label('title', 'タイトル:') !!}
@@ -16,10 +18,7 @@
                     {!! Form::label('price', '値段:') !!}
                     {!! Form::text('price', null, ['class' => 'form-control']) !!}
                 </div>
-                 <div class="form-group">
-                      {!! Form::label('image', '本の画像:') !!}
-                    {!! Form::file('image', null, ['class' => 'form-control']) !!}
-                </div>
+
                  <div class="form-group">
                     {!! Form::label('memo', 'メモ:') !!}
                     {!! Form::text('memo', null, ['class' => 'form-control']) !!}

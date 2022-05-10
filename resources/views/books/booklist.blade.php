@@ -11,6 +11,7 @@
                     <th width="200px">画像</th>
                     <th>タイトル</th>
                     <th>値段</th>
+                    <th>メモ</th>
                 </tr>
             </thead>
             <tbody>
@@ -19,6 +20,7 @@
                    <td><img src="{{asset('upload/'.$book->image)}}" width="75px"></td>   
                     <td>{!! link_to_route('books.show', $book->title, ['book' => $book->id]) !!}</td>
                     <td>{{ $book->price}}</td>
+                    <td>{{ $book->memo}}</td>
                 </tr>
                 <!--今回、エラーが出てしまった場所。原因は、$book->idとすべきところが、$book->titleとしてしまったがために、-->
                 <!--URLがtitleのもの（books/test みたいなの。正しくはbooks/1）に遷移するということになってしまったことによる。-->

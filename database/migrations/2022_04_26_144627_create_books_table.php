@@ -17,9 +17,9 @@ class CreateBooksTable extends Migration
             $table->bigIncrements('id');
             $table->unsignedBigInteger('user_id');
             $table->string('title');
-            $table->string('memo');
+            $table->string('memo')->nullable();
             $table->integer('price');
-            $table->string('image')->nullable();;
+            $table->string('image')->nullable();
             $table->timestamps();
             
             // 外部キー制約

@@ -17,25 +17,29 @@ class BooksController extends Controller
 {
     public function index()
     {
+         //もしログインされてなかった場合は、トップページに飛びます。ちなみに（！　）はNotを表す
+        if(!Auth::id()){
+            return view('welcome');
+        }else{
+        //追加した本の一覧をidの降順で取得。
+        //データを取得するコードが必要なので、書いた。
+        // Bookというモデルからもってきたidを、この順に並べる。最新のやつを五個まで表示。
+        $books = Book::where('user_id',Auth::id())->orderBy('id', 'desc')->paginate(5);
         
-        //追加した本の一覧をidの降順で取得(設計中)
-        //データを取得するコードが必要となるので、書いておくこと(書いた)
-        $books = Book::orderBy('id', 'desc')->paginate(5);
-    //   ここに定義する。Bookというモデルからもってきたidを、この順に並べる。最新のやつを五個まで表示。(あってるかわからん)
-    
+        // sumを定義する。
         $sum = Book::where('user_id',Auth::id())->sum('price');
-        
         // ビューでそれを表示する。resources/views/books/index.blade.phpを意味する。
         return view('books.index', [
             // 渡したいデータの配列を指定する。$books = Book::all(); で $books に入ったデータをViewに渡すためである。
             'books' => $books,
             'sum'=> $sum,
         ]);
-        
+        }
     }
     
     public function booklist()
     {
+        // すべて取得したいので、一旦このように表記。
         $books = Book::orderBy('id', 'desc')->get();
         
         return view('books.booklist',[
@@ -63,8 +67,11 @@ class BooksController extends Controller
      // postでbooks/にアクセスされた場合の「新規登録処理」
     public function store(Request $request)
     {
+        //画像のアップロード機能を表す。
+        //fileに出された名前をとってきて、それが空かそうでないかで分岐をする。
          $file = $request->file('image');
     if(!empty($file)){
+        //こうすることで、オリジナルの画像の名前で取得する。
         $filename = $file->getClientOriginalName();
         $move = $file->move('./upload/',$filename);
     }else{
@@ -109,15 +116,26 @@ class BooksController extends Controller
         ]);
     }
 
-    // putまたはpatchでmessages/（任意のid）にアクセスされた場合の「更新処理」
+    // putまたはpatch（任意のid）にアクセスされた場合の「更新処理」
    public function update(Request $request, $id)
     {
+         //画像のアップロード機能を表す。
+        //fileに出された名前をとってきて、それが空かそうでないかで分岐をする。
+         $file = $request->file('image');
+    if(!empty($file)){
+        //こうすることで、オリジナルの画像の名前で取得する。
+        $filename = $file->getClientOriginalName();
+        $move = $file->move('./upload/',$filename);
+    }else{
+        $filename = null;
+    }
+    
         // idの値でメッセージを検索して取得
         $book = Book::findOrFail($id);
         // メッセージを更新
         $book->title = $request->title;
         $book->price = $request->price;
-        $book->image = $request->image;
+        $book->image = $filename;
         $book->memo = $request->memo;
         $book->save();
 

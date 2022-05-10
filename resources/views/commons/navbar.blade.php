@@ -15,8 +15,7 @@
              
                 @if (Auth::check())
                     {{-- ユーザ一覧ページへのリンク --}}
-                    <li class="nav-item">
-                        {!! link_to_route('books.booklist', '本棚') !!}</li>
+                    <li class="nav-item">{!! link_to_route('books.booklist', '本棚', [], ['class' => 'nav-link']) !!}</li>
                     
                     <li class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">{{ Auth::user()->name }}</a>

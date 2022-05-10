@@ -13,7 +13,7 @@
         </tr>
          <tr>
             <th>画像</th>
-            <td>{{ $book->image }}</td>
+            <td><img src="{{asset('upload/'.$book->image)}}" width="75px"></td> 
         </tr>
         <tr>
             <th>メモ</th>
