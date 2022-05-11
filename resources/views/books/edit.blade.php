@@ -2,6 +2,7 @@
 
 @section('content')
 
+
 <h1>{{ $book->title }} の更新ページ</h1>
 
     <div class="row">
@@ -24,8 +25,8 @@
                     {!! Form::text('memo', null, ['class' => 'form-control']) !!}
                 </div>
 
-                {!! Form::submit('更新', ['class' => 'btn btn-primary']) !!}
-
+                <button id="updateSubmit" class="btn btn-primary">更新</button>
+            
             {!! Form::close() !!}
             
            
@@ -33,3 +34,4 @@
     </div>
 
 @endsection
+

@@ -13,7 +13,15 @@
         </tr>
          <tr>
             <th>画像</th>
-            <td><img src="{{asset('upload/'.$book->image)}}" width="75px"></td> 
+            
+            <td>
+                @if($book->image == null)
+                        <img src="{{asset('noImage/noimage.png')}}" width="75px">
+                    @else
+                        <img src="{{asset('upload/'.$book->image)}}" width="75px"> 
+                    @endif
+               
+                </td> 
         </tr>
         <tr>
             <th>メモ</th>
@@ -26,7 +34,10 @@
     
       {{-- 本の削除フォーム --}}
     {!! Form::model($book, ['route' => ['books.destroy', $book->id], 'method' => 'delete']) !!}
-        {!! Form::submit('☠削除☠', ['class' => 'btn btn-danger']) !!}
+   
+        <button id="deleteSubmit" class="btn btn-danger">削除</button>
     {!! Form::close() !!}
+
+<script src="{{ asset('/js/test.js') }}"></script>
 
 @endsection

@@ -17,7 +17,15 @@
             <tbody>
                 @foreach ($books as $book)
                 <tr>
-                   <td><img src="{{asset('upload/'.$book->image)}}" width="75px"></td>   
+                <td>
+                    
+                @if($book->image == null)
+                        <img src="{{asset('noImage/noimage.png')}}" width="75px">
+                    @else
+                        <img src="{{asset('upload/'.$book->image)}}" width="75px"> 
+                    @endif
+               
+                </td> 
                     <td>{!! link_to_route('books.show', $book->title, ['book' => $book->id]) !!}</td>
                     <td>{{ $book->price}}</td>
                     <td>{{ $book->memo}}</td>

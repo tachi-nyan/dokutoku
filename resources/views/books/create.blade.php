@@ -23,7 +23,8 @@
                      {!! Form::label('memo', '本のメモ:') !!}
                     {!! Form::text('memo', null, ['class' => 'form-control']) !!}
                 </div>
-                {!! Form::submit('投稿', ['class' => 'btn btn-primary']) !!}
+
+                <button id="createSubmit" class="btn btn-primary">投稿</button>
 
             {!! Form::close() !!}
         </div>

@@ -21,9 +21,12 @@ class BooksController extends Controller
         if(!Auth::id()){
             return view('welcome');
         }else{
+            
+            
         //追加した本の一覧をidの降順で取得。
         //データを取得するコードが必要なので、書いた。
         // Bookというモデルからもってきたidを、この順に並べる。最新のやつを五個まで表示。
+        
         $books = Book::where('user_id',Auth::id())->orderBy('id', 'desc')->paginate(5);
         
         // sumを定義する。
@@ -40,7 +43,7 @@ class BooksController extends Controller
     public function booklist()
     {
         // すべて取得したいので、一旦このように表記。
-        $books = Book::orderBy('id', 'desc')->get();
+        $books = Book::where('user_id',Auth::id())->orderBy('id', 'desc')->get();
         
         return view('books.booklist',[
         'books'=> $books,
@@ -67,6 +70,15 @@ class BooksController extends Controller
      // postでbooks/にアクセスされた場合の「新規登録処理」
     public function store(Request $request)
     {
+        
+         // バリデーション
+        $request->validate([
+            'title' => 'required|max:100',
+            'memo' => 'nullable|max:255|',
+            'price' => 'required|max:10',
+        ]);
+        
+        
         //画像のアップロード機能を表す。
         //fileに出された名前をとってきて、それが空かそうでないかで分岐をする。
          $file = $request->file('image');
@@ -119,6 +131,13 @@ class BooksController extends Controller
     // putまたはpatch（任意のid）にアクセスされた場合の「更新処理」
    public function update(Request $request, $id)
     {
+         // バリデーション
+        $request->validate([
+            'title' => 'required|max:100',
+            'memo' => 'nullable|max:255',
+            'price' => 'required|max:10',
+        ]);
+        
          //画像のアップロード機能を表す。
         //fileに出された名前をとってきて、それが空かそうでないかで分岐をする。
          $file = $request->file('image');
@@ -155,5 +174,4 @@ class BooksController extends Controller
         return redirect('/');
     }
     
-   
 }
