@@ -28,7 +28,8 @@ class BooksController extends Controller
         // Bookというモデルからもってきたidを、この順に並べる。最新のやつを五個まで表示。
         
         $books = Book::where('user_id',Auth::id())->orderBy('id', 'desc')->paginate(5);
-        
+        // countを定義する。
+        $count = Book::where('user_id',Auth::id())->count('id');
         // sumを定義する。
         $sum = Book::where('user_id',Auth::id())->sum('price');
         // ビューでそれを表示する。resources/views/books/index.blade.phpを意味する。
@@ -36,20 +37,11 @@ class BooksController extends Controller
             // 渡したいデータの配列を指定する。$books = Book::all(); で $books に入ったデータをViewに渡すためである。
             'books' => $books,
             'sum'=> $sum,
+            'count'=>$count,
         ]);
         }
     }
     
-    public function booklist()
-    {
-        // すべて取得したいので、一旦このように表記。
-        $books = Book::where('user_id',Auth::id())->orderBy('id', 'desc')->get();
-        
-        return view('books.booklist',[
-        'books'=> $books,
-        ]);
-        
-    }
     
     // 「新規登録画面表示処理」を書いていく。
     public function create()
@@ -73,9 +65,10 @@ class BooksController extends Controller
         
          // バリデーション
         $request->validate([
+            'image' => 'nullable|max:2048|mimes:jpg,jpeg,png,gif',
             'title' => 'required|max:100',
-            'memo' => 'nullable|max:255|',
-            'price' => 'required|max:10',
+            'memo' => 'nullable|max:255',
+            'price' => 'required|integer|max:100000000',
         ]);
         
         
@@ -89,7 +82,7 @@ class BooksController extends Controller
     }else{
         $filename = null;
     }
-    
+   
         $book = new Book;
         $book->title = $request->title;
         $book->memo = $request->memo;
@@ -111,9 +104,15 @@ class BooksController extends Controller
         $book = Book::findOrFail($id);
 
         // 詳細ビューでそれを表示
-        return view('books.show', [
+        
+        if (\Auth::id() === $book->user_id) {
+            return view('books.show', [
             'book' => $book,
          ]);
+        }
+          // トップページへリダイレクトさせる
+        return redirect('/');
+        
     }
 
     // getでmessages/（任意のid）/editにアクセスされた場合の「更新画面表示処理」
@@ -123,9 +122,14 @@ class BooksController extends Controller
         $book = Book::findOrFail($id);
 
         // メッセージ編集ビューでそれを表示
+        if (\Auth::id() === $book->user_id) {
         return view('books.edit', [
             'book' => $book,
         ]);
+        }
+         
+         // トップページへリダイレクトさせる
+        return redirect('/');
     }
 
     // putまたはpatch（任意のid）にアクセスされた場合の「更新処理」
@@ -135,7 +139,7 @@ class BooksController extends Controller
         $request->validate([
             'title' => 'required|max:100',
             'memo' => 'nullable|max:255',
-            'price' => 'required|max:10',
+            'price' => 'required|integer|max:100000000',
         ]);
         
          //画像のアップロード機能を表す。
@@ -148,7 +152,8 @@ class BooksController extends Controller
     }else{
         $filename = null;
     }
-    
+     
+  
         // idの値でメッセージを検索して取得
         $book = Book::findOrFail($id);
         // メッセージを更新
@@ -157,6 +162,7 @@ class BooksController extends Controller
         $book->image = $filename;
         $book->memo = $request->memo;
         $book->save();
+
 
         // トップページへリダイレクトさせる
         return redirect('/');

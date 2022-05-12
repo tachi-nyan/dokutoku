@@ -13,13 +13,14 @@
 <!--なお、合計取得額の記載など、まだまだやるべきことは多いと思われるので、油断はできない。-->
 
 
+<h2>あなたはこれまでに{{$count}}冊の本を読みました。</h2>
 <h2>あなたがこれまでに読んだ本の合計額は{{$sum}}円です。</h2>
 
  {{-- 本を投稿する場所へのリンク --}}
  <div class="d-grid gap-2">
     {!! link_to_route('books.create', '新しく本を追加する', [], ['class' => 'btn btn-outline-secondary']) !!}
 </div>
-    <h1>あなたが最近読んだ本</h1>
+    <h3>あなたが最近読んだ本</h3>
 
     @if (count($books) > 0)
         <table class="table table-striped">
@@ -44,7 +45,10 @@
                     <td>{!! link_to_route('books.show', $book->title, ['book' => $book->id]) !!}</td>
                     <td>{{ $book->price}}</td>
                     <td>{{ $book->memo}}</td>
+                  
                 </tr>
+                
+                  
                 <!--今回、エラーが出てしまった場所。原因は、$book->idとすべきところが、$book->titleとしてしまったがために、-->
                 <!--URLがtitleのもの（books/test みたいなの。正しくはbooks/1）に遷移するということになってしまったことによる。-->
                 <!--このlink_to_routeにおいては、何が引数なのか、何に遷移すればいいのか、ということを-->
@@ -53,5 +57,6 @@
             </tbody>
         </table>
     @endif
+    {{ $books->links() }}
 
 @endsection

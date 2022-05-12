@@ -9,24 +9,38 @@
     <h5>あなたが借りて読んだ本を登録しましょう！</h5>
     <div class="row">
         <div class="col-6">
-            
-           
-    
-            {!! Form::model($book, ['route' => 'books.store','files' => true]) !!}
+
+            <form  action="{{ route('books.store', $book) }}" method="POST" enctype="multipart/form-data">
+            @csrf
+                  
+            <label>
+                本の画像
+            </label>       
             <input type="file" name="image">
+            <br>
+            <label>
+                本のタイトル
+            </label>   
+            <input class = form-control type="text" name="title">
+            
+            <label>
+                本の値段（半角英数字）
+            </label>   
+            <input class = form-control type="text" name="price">
+            
+            <label>
+                本のメモ
+            </label>   
+            <input class =form-control type="text" name="memo">
+            
 
                 <div class="form-group">
-                    {!! Form::label('title', '本のタイトル:') !!}
-                    {!! Form::text('title', null, ['class' => 'form-control']) !!}
-                     {!! Form::label('price', '本の値段:') !!}
-                    {!! Form::text('price', null, ['class' => 'form-control']) !!}
-                     {!! Form::label('memo', '本のメモ:') !!}
-                    {!! Form::text('memo', null, ['class' => 'form-control']) !!}
+                   
                 </div>
 
                 <button id="createSubmit" class="btn btn-primary">投稿</button>
 
-            {!! Form::close() !!}
+            </form>
         </div>
     </div>
 @endsection

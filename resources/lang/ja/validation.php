@@ -65,7 +65,7 @@ return [
     'image'                => ':attributeには、画像を指定してください。',
     'in'                   => '選択された:attributeは、有効ではありません。',
     'in_array'             => ':attributeが:otherに存在しません。',
-    'integer'              => ':attributeには、整数を指定してください。',
+    'integer'              => ':attributeには、半角英数字で値段を入力してください。',
     'ip'                   => ':attributeには、有効なIPアドレスを指定してください。',
     'ipv4'                 => ':attributeはIPv4アドレスを指定してください。',
     'ipv6'                 => ':attributeはIPv6アドレスを指定してください。',
@@ -108,7 +108,7 @@ return [
     'prohibited_unless'    => ':attributeフィールドは、:otherが:valuesでない限り禁止されています。',
     'prohibits'            => ':attribute フィールドは、:other が存在することを禁止します。',
     'regex'                => ':attributeには、有効な正規表現を指定してください。',
-    'required'             => ':attributeは、必ず指定してください。',
+    'required'             => ':attributeは、必ず入力してください。',
     'required_array_keys'  => ':attributeフィールドには、：valuesのエントリを含める必要があります。',
     'required_if'          => ':otherが:valueの場合、:attributeを指定してください。',
     'required_unless'      => ':otherが:values以外の場合、:attributeを指定してください。',
@@ -138,8 +138,12 @@ return [
         
     ],
     'attributes' => [
-              'title' => '本のタイトル',
-              'price' => '本の値段',
-              'memo' => '本のメモ',
+              'title' => '本のタイトルの欄',
+              'price' => '本の値段の欄',
+              'memo' => '本のメモの欄',
+              'name' => 'ユーザー名',
+              'email' => 'メールアドレス',
+              'password' => 'パスワード',
+              'image' => '画像',
             ],
 ];

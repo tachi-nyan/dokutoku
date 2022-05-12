@@ -7,27 +7,29 @@
 
     <div class="row">
         <div class="col-6">
-            {!! Form::model($book, ['route' => ['books.update', $book->id], 'method' => 'put', 'files' => true]) !!}
-
+             <form  action="{{ route('books.update', $book->id) }}" method="POST" enctype="multipart/form-data">
+        
+            @method('PUT')
+            @csrf
             <input type="file" name="image">
 
                 <div class="form-group">
                     {!! Form::label('title', 'タイトル:') !!}
-                    {!! Form::text('title', null, ['class' => 'form-control']) !!}
+                    {!! Form::text('title', $book->title, ['class' => 'form-control']) !!}
                 </div>
                  <div class="form-group">
                     {!! Form::label('price', '値段:') !!}
-                    {!! Form::text('price', null, ['class' => 'form-control']) !!}
+                    {!! Form::text('price', $book->price, ['class' => 'form-control']) !!}
                 </div>
 
                  <div class="form-group">
                     {!! Form::label('memo', 'メモ:') !!}
-                    {!! Form::text('memo', null, ['class' => 'form-control']) !!}
+                    {!! Form::text('memo', $book->memo, ['class' => 'form-control']) !!}
                 </div>
 
                 <button id="updateSubmit" class="btn btn-primary">更新</button>
             
-            {!! Form::close() !!}
+          </form>
             
            
     </div>
