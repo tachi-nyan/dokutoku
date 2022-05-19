@@ -1,9 +1,10 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="text-center">
+    <div class="bg">
+        <div class ="glass">
         <h1>ユーザー新規登録</h1>
-    </div>
+    
 
     <div class="row">
         <div class="col-sm-6 offset-sm-3">
@@ -32,5 +33,7 @@
                 {!! Form::submit('新規登録する', ['class' => 'btn btn-primary btn-block']) !!}
             {!! Form::close() !!}
         </div>
+    </div>
+    </div>
     </div>
 @endsection

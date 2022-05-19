@@ -1,13 +1,358 @@
-*{
- margin: 0;padding: 0;
- box-sizing: border-box;
+
+
+/* 簡易リセットCSS */
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
 }
 
-.logo{
+/*welcomepageなどの背景処理*/
+.bg {
+  background-color: #000; /* 画像がない場合のフォールバック */
+  background-image: url("../backgroundImage/topimg.jpg"); /* 画像のパスを指定 */
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
   width: 100%;
-  height: auto;
+  padding: 70px 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
-.navbar-brand{
-  width: 100px;
+/*welcomepageのサブタイトル*/
+.subtitle {
+  text-align: center;
+}
+/* ガラス本体 */
+.glass {
+  width: 100%;
+  max-width: 600px;
+  padding: 30px;
+  background-color: rgba(255, 255, 255, 0.1); /* 背景色 */
+  border: 1px solid rgba(255, 255, 255, 0.4); /* ボーダー */
+  border-right-color: rgba(255, 255, 255, 0.2);
+  border-bottom-color: rgba(255, 255, 255, 0.2);
+  border-radius: 15px;
+  -webkit-backdrop-filter: blur(20px); /* ぼかしエフェクト */
+  backdrop-filter: blur(20px);
+  box-shadow: 0 5px 20px rgba(255, 152, 79, 0.5); /* 薄い影 */
+}
+
+/* ガラス内の要素 */
+.glass h1 {
+  text-align: center;
+  color: #fff;
+  font-family: "Heebo", sans-serif;
+  font-size: 50px;
+  font-weight: bold;
+  letter-spacing: 0.06em;
+}
+/* ガラス内のpタグ */
+.glass p {
+  margin-top: 20px;
+  color: #fff;
+  font-size: 16px;
+}
+
+/*welcomepageにあるボタンの位置の調整*/
+.welcomebtn {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+/*ボタンの色*/
+.btn--orange {
+  color: #fff;
+  background-color: #eb6100;
+  border-bottom: 5px solid #b84c00;
+}
+
+/*触れた時の処理*/
+.btn--orange:hover {
+  margin-top: 3px;
+  color: #fff;
+  background: #f56500;
+  border-bottom: 2px solid #b84c00;
+}
+
+/*ボタンにつける影*/
+.btn--shadow {
+  -webkit-box-shadow: 0 3px 5px rgba(0, 0, 0, .3);
+  box-shadow: 0 3px 5px rgba(0, 0, 0, .3);
+}
+
+/*本の合計数表示*/
+.bookCount {
+  display: flex;
+  justify-content: space-evenly;
+  margin-top: 30px;
+}
+
+/*値段の合計額表示*/
+.bookSum {
+  display: flex;
+  justify-content: space-evenly;
+  margin-top: 30px;
+}
+
+/*最近読んだ本です*/
+.bookRecently {
+  display: flex;
+  justify-content: space-evenly;
+  margin-top: 30px;
+}
+
+/*createに行く際に押させるボタン*/
+.createBookBtn{
+  display: flex;
+  justify-content: space-evenly;
+  margin-top: 30px;
+}
+
+/*上記ボタンの形を定義。以下、button01は同じやつ*/
+.button01 a {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 30px auto;
+  padding: 1em 2em;
+  width: 300px;
+  color: #333;
+  font-size: 18px;
+  font-weight: 700;
+  background-color: #EFA752;
+  transition: 0.3s;
+}
+
+.button01 a:after {
+  content: '';
+  width: 5px;
+  height: 5px;
+  border-top: 3px solid #333333;
+  border-right: 3px solid #333333;
+  transform: rotate(45deg);
+}
+
+.button01 a:hover {
+  text-decoration: none;
+  background-color: #FFA500;
+}
+
+/*表に適用させる。のちのコードで、このコードを回避しているものもある。*/
+table {
+  border-collapse: collapse;
+  margin: 0 auto;
+  padding: 0;
+  width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+  box-shadow: 0 0 15px -6px #00000073;
+}
+
+table tr {
+  background-color: #fff;
+}
+
+table th,
+table td {
+  padding: 20px 0;
+  border-bottom: 1px solid #eee;
+}
+
+table th {
+  padding: 10px 0;
+  font-size: 14px;
+  padding: 15px;
+  background-color: #17A2B8;
+  opacity: 0.7;
+  color:#fff;
+}
+
+table tr{
+  text-align: center;
+  width: 20%;
+  padding: 20px 0;
+  background-color: #fff;
+  color:#3a3a3a;
+}
+
+table.table tr:hover{
+  background-color: #d4faff;
+}
+
+/*ベージュ色で目に優しい背景を、更にバック画像として本を、透明度も指定した。*/
+body {
+  background-image:url("../backgroundImage/back book.png");
+  background-size:10%;
+  background-repeat:repeat;
+  background-color:rgba(253,245,230,0.9);
+  background-blend-mode:lighten;
+}
+
+
+
+h1 {
+  display: flex;
+  justify-content: space-evenly;
+  margin-top: 30px;
+}
+
+h5 {
+  display: flex;
+  justify-content: space-evenly;
+  margin-top: 30px;
+}
+
+.book_newly_registration{
+  width: 900px;/*横幅*/
+  margin: 0 auto;/*中央寄せ*/
+  padding: 30px 0;
+  
+}
+
+.form-table {
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.form-item,
+.form-body {
+    padding: 20px;
+    border: 1px solid #ccc;
+}
+
+.form-item {
+    text-align: left;
+    width: 30%;
+    background-color: #17A2B8;
+}
+
+.form-body {
+    width: 70%;
+}
+.form-text {
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    max-width: 400px;
+}
+.form-image {
+   display: flex;
+}
+
+label {
   display: block;
+}
+
+.required:after {
+  margin-left: 1.0em;
+  padding: 0px 6px 0px 6px;
+  border-radius: 4px;
+  font-size: 0.6em;
+  color: white;
+  background-color: #C44;
+  content: "必須";
+}
+.price_required:after {
+  margin-left: 1.0em;
+  padding: 0px 6px 0px 6px;
+  border-radius: 4px;
+  font-size: 0.6em;
+  color: white;
+  background-color: #C44;
+  content: "半角英数字 必須";
+}
+
+.form-submit {
+  width: 250px;
+  background-color: #eb6100;
+  color: #fff;
+  font-weight: bold;
+  display: block;
+  margin: 0 auto;
+  font-size: 16px;
+  padding: 15px;
+  border-radius: 100vh;
+  border: none;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  cursor: pointer;
+}
+
+.form-submit:hover {
+  margin-top: 3px;
+  color: #fff;
+  background: #f56500;
+}
+
+.form-shadow {
+  -webkit-box-shadow: 0 3px 5px rgba(0, 0, 0, .3);
+  box-shadow: 0 3px 5px rgba(0, 0, 0, .3);
+}
+
+.detailed_page_heading {
+  margin-bottom: 30px;
+}
+
+
+.button02red form {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 30px auto;
+  padding: 10px;
+  width: 200px;
+  color: #333;
+  font-size: 18px;
+  font-weight: 700;
+  background-color: #dc3545;
+  transition: 0.3s;
+}
+
+.button02red form:hover {
+  text-decoration: none; 
+  background-color: #f23545;
+}
+
+.bookmark_list_page {
+  display: flex;
+  justify-content: space-evenly;
+  margin:30px;
+}
+
+h2.bookmark_list_page_sub  {
+  display: flex;
+  justify-content: space-evenly;
+  margin:30px;
+}
+
+.rate-form {
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: flex-end;
+}
+.rate-form input[type=radio] {
+  display: none;
+}
+.rate-form label {
+  position: relative;
+  padding: 0 7px;
+  color: #ccc;
+  cursor: pointer;
+  font-size: 35px;
+}
+.rate-form label:hover {
+  color: #ffcc00;
+}
+.rate-form label:hover ~ label {
+  color: #ffcc00;
+}
+.rate-form input[type=radio]:checked ~ label {
+  color: #ffcc00;
 }

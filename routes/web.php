@@ -40,12 +40,15 @@ Route::get('books/{book}','BooksController@show')->name('books.show');
 //個別詳細ページを表示する。その際、その個別の本のidを取ってくる必要があるため、{id}を指定する。
 Route::post('books','BooksController@store')->name('books.store');
 // 新規登録を処理する。ここで、idはこれから付与するから、idを指定する必要がない。
-Route::put('books/{book}', 'BooksController@update')->name('books.update');
+Route::post('books/{book}/update', 'BooksController@update')->name('books.update');
 //更新処理。
-Route::delete('books/{book}', 'BooksController@destroy')->name('books.destroy');
+Route::post('books/{book}/destroy', 'BooksController@destroy')->name('books.destroy');
 //削除処理。
 Route::get('books/{book}/edit', 'BooksController@edit')->name('books.edit');
 // edit: 更新用のフォームページ。name は「名前つきルート」というもので、特定のルートへのURLを生成したり、リダイレクトしたりする。
 
-    
+Route::get('bookmarks', 'BooksController@bookmarks')->name('books.bookmarks');  
+
+Route::post('bookmark/{book}', 'BookmarksController@store')->name('bookmarks.bookmark');
+Route::post('unbookmark/{book}', 'BookmarksController@destroy')->name('bookmarks.unbookmark');
 });

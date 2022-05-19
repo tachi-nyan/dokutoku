@@ -2,45 +2,63 @@
 
 @section('content')
 
-    <h1>本の新規投稿ページ</h1>
+    <h1>本の新規登録ページ</h1>
     
  <!--ここは、動作は確認できたので、ちゃんとしたデザインにすることを最終の目標としたい。-->
 
-    <h5>あなたが借りて読んだ本を登録しましょう！</h5>
+    <h5>借りて読んだ本を登録しましょう！</h5>
     <div class="row">
-        <div class="col-6">
 
-            <form  action="{{ route('books.store', $book) }}" method="POST" enctype="multipart/form-data">
+            <form  action="{{ route('books.store', $book) }}" method="POST" enctype="multipart/form-data" class="book_newly_registration">
             @csrf
-                  
-            <label>
-                本の画像
-            </label>       
-            <input type="file" name="image">
-            <br>
-            <label>
-                本のタイトル
-            </label>   
-            <input class = form-control type="text" name="title">
             
-            <label>
-                本の値段（半角英数字）
-            </label>   
-            <input class = form-control type="text" name="price">
-            
-            <label>
-                本のメモ
-            </label>   
-            <input class =form-control type="text" name="memo">
-            
-
-                <div class="form-group">
-                   
-                </div>
-
-                <button id="createSubmit" class="btn btn-primary">投稿</button>
+        <table class="form-table">
+    <tr>
+        <th class="form-item">本のタイトル<span class="required"></span></th>
+        <td class="form-body">
+         <input type="text" name="title" class="form-control" />
+        </td>
+    </tr>
+     <tr>
+        <th class="form-item">本の値段<span class="price_required"></span></th>
+        <td class="form-body">
+         <input type="text" name="price" class="form-control" />
+        </td>
+    </tr>
+    <tr>
+        <th class="form-item">本の評価<span class="required"></span></th></th>
+        <td class="form-body">
+        <div class="rate-form">
+          <input id="star5" type="radio" name="rate" value="5">
+          <label for="star5">★</label>
+          <input id="star4" type="radio" name="rate" value="4">
+          <label for="star4">★</label>
+          <input id="star3" type="radio" name="rate" value="3">
+          <label for="star3">★</label>
+          <input id="star2" type="radio" name="rate" value="2">
+          <label for="star2">★</label>
+          <input id="star1" type="radio" name="rate" value="1">
+          <label for="star1">★</label>
+        </div>
+        </td>
+    </tr>
+     <tr>
+        <th class="form-item">本の画像</th>
+        <td class="form-body">
+         <input type="file" name="image"class=form-image />
+        </td>
+    </tr>
+    
+     <tr>
+        <th class="form-item">本のメモ</th>
+        <td class="form-body">
+         <input type="text" name="memo" class="form-control" />
+        </td>
+    </tr>
+            </table>
+           
+           <input id="createSubmit" class="form-submit form-shadow" type="submit" value="投稿" />
 
             </form>
-        </div>
     </div>
 @endsection

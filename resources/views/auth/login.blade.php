@@ -1,9 +1,10 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="text-center">
+    <div class="bg">
+        <div class ="glass">
         <h1>ログイン</h1>
-    </div>
+    
 
     <div class="row">
         <div class="col-sm-6 offset-sm-3">
@@ -25,5 +26,7 @@
             {{-- ユーザ登録ページへのリンク --}}
             <p class="mt-2">新規登録がお済でない方は {!! link_to_route('signup.get', 'こちら') !!}</p>
         </div>
+    </div>
+    </div>
     </div>
 @endsection

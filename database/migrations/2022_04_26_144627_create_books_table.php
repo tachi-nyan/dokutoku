@@ -19,6 +19,7 @@ class CreateBooksTable extends Migration
             $table->string('title');
             $table->string('memo')->nullable();
             $table->integer('price');
+            $table->integer('rate');
             $table->string('image')->nullable();
             $table->timestamps();
             

@@ -6,12 +6,15 @@ use Illuminate\Http\Request;
 
 use App\Book; // これを追加することで、Bookモデルのデータを使用することになる
 
+use App\User;
 use Illuminate\Support\Facades\Auth;//ユーザーIDをなんとかする
 
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 // use App\DB;
+
+
 
 class BooksController extends Controller
 {
@@ -22,19 +25,19 @@ class BooksController extends Controller
             return view('welcome');
         }else{
             
-            
+        $user = Auth::id();
         //追加した本の一覧をidの降順で取得。
         //データを取得するコードが必要なので、書いた。
         // Bookというモデルからもってきたidを、この順に並べる。最新のやつを五個まで表示。
-        
         $books = Book::where('user_id',Auth::id())->orderBy('id', 'desc')->paginate(5);
-        // countを定義する。
+        // ユーザーごとの本の数を集計する、countを定義する
         $count = Book::where('user_id',Auth::id())->count('id');
-        // sumを定義する。
+        // ユーザーごとの本の値段の合計額を集計する、sumを定義する。
         $sum = Book::where('user_id',Auth::id())->sum('price');
         // ビューでそれを表示する。resources/views/books/index.blade.phpを意味する。
+       
         return view('books.index', [
-            // 渡したいデータの配列を指定する。$books = Book::all(); で $books に入ったデータをViewに渡すためである。
+            // 渡したいデータの配列を指定する。$books に入ったデータをViewに渡すためである。
             'books' => $books,
             'sum'=> $sum,
             'count'=>$count,
@@ -46,10 +49,11 @@ class BooksController extends Controller
     // 「新規登録画面表示処理」を書いていく。
     public function create()
     {
+        
         // フォームの入力項目のために $book = new Book; でインスタンスを作成している。
         $book = new Book;
         
-        // 本の新規登録ビューを表示
+        // 本の新規登録ビューを表示。
         return view('books.create', [
             'book' => $book,
         ]);
@@ -68,6 +72,7 @@ class BooksController extends Controller
             'image' => 'nullable|max:2048|mimes:jpg,jpeg,png,gif',
             'title' => 'required|max:100',
             'memo' => 'nullable|max:255',
+            'rate' => 'required',
             'price' => 'required|integer|max:100000000',
         ]);
         
@@ -87,6 +92,7 @@ class BooksController extends Controller
         $book->title = $request->title;
         $book->memo = $request->memo;
         $book->price = $request->price;
+        $book->rate = $request->rate;
         $book->image = $filename;
         $book->user_id = Auth::id();
         $book->save();
@@ -115,13 +121,13 @@ class BooksController extends Controller
         
     }
 
-    // getでmessages/（任意のid）/editにアクセスされた場合の「更新画面表示処理」
+    // 「更新画面表示処理」
     public function edit($id)
     {
-        // idの値でメッセージを検索して取得
+        // idの値で投稿を特定、取得
         $book = Book::findOrFail($id);
 
-        // メッセージ編集ビューでそれを表示
+        // 編集ビューでそれを表示
         if (\Auth::id() === $book->user_id) {
         return view('books.edit', [
             'book' => $book,
@@ -137,7 +143,9 @@ class BooksController extends Controller
     {
          // バリデーション
         $request->validate([
+            'image' => 'nullable|max:2048|mimes:jpg,jpeg,png,gif',
             'title' => 'required|max:100',
+            'rate' => 'required',
             'memo' => 'nullable|max:255',
             'price' => 'required|integer|max:100000000',
         ]);
@@ -154,11 +162,12 @@ class BooksController extends Controller
     }
      
   
-        // idの値でメッセージを検索して取得
+        // idの値で検索して取得
         $book = Book::findOrFail($id);
-        // メッセージを更新
+        // それぞれを更新
         $book->title = $request->title;
         $book->price = $request->price;
+        $book->rate = $request->rate;
         $book->image = $filename;
         $book->memo = $request->memo;
         $book->save();
@@ -168,16 +177,37 @@ class BooksController extends Controller
         return redirect('/');
     }
 
-    // deleteでmessages/（任意のid）にアクセスされた場合の「削除処理」
+    // 「削除処理」
     public function destroy($id)
     {
         $book = Book::findOrFail($id);
-        // メッセージを削除
         $book->delete();
 
 
          // トップページへリダイレクトさせる
         return redirect('/');
+    }
+    
+    /**
+     * ユーザのブックマーク一覧ページを表示するアクション。
+     *
+     * @param  $id  ユーザのid
+     * @return \Illuminate\Http\Response
+     */
+    public function bookmarks()
+    {
+        
+        // ユーザーを識別する。
+        $user = Auth::user();
+        
+        // ユーザーのブックマーク一覧を取得する。
+        $bookmarks = $user->bookmarks()->orderBy('id', 'desc')->paginate(10);
+
+        // ブックマーク一覧ビューでそれらを表示。
+        return view('books.bookmarks', [
+            'books' => $bookmarks,
+            'user' => $user,
+        ]);
     }
     
 }

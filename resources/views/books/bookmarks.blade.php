@@ -1,37 +1,19 @@
 @extends('layouts.app')
 
 @section('content')
+            {{-- お気に入り一覧 --}}
+        
+        @if(count($user->bookmarks) == 0)
+        
+        <h2 class="bookmark_list_page">まだブックマークした本がありません…</h2>
+        <h2 class="bookmark_list_page_sub">お気に入りの本があれば、ブックマークしてみましょう！</h2>
 
-
-<!--表には、何冊目、タイトル、値段を表示するようにしている。-->
-<!--データは、$booksから取得するようにしている。-->
-<!--それぞれの項目において、id、title、priceを取得し、それを表示することを意図している。-->
-
-@if (count($books) == 0)
-<h2 class="bookCount">あなたはまだ本を一冊も登録していません。</h2>
-<h2 class="bookSum">いますぐ本を登録しましょう！</h2>
- <div class="d-grid gap-2">
-   <div class="button01">
-  <a href="{{ route('books.create') }}">新しく本を登録する</a>
-</div>
-</div>
-@else
-<!--ユーザーの、合計の本の冊数、合計額を記載した。-->
-<h2 class="bookCount">あなたはこれまでに{{$count}}冊の本を登録しました！</h2>
-<h2 class="bookSum">あなたがこれまでに登録した本の合計額は{{$sum}}円です。</h2>
-
-
- {{-- 本を投稿する場所へのリンク --}}
- <div class="d-grid gap-2">
-       <div class="button01">
-  <a href="{{ route('books.create') }}">新しく本を登録する</a>
-</div>
-</div>
-
-<!--本の数が1冊以上であれば、表として表示することができる。-->
-    <h5 class="bookRecently">あなたが登録した本</h5>
-
-    @if (count($books) > 0)
+        @endif
+        
+        
+         @if (count($books) > 0)
+          <h2 class="bookmark_list_page">{{ Auth::user()->name }} さんのブックマーク一覧ページ</h2>
+          
         <table class="table">
             <thead>
                 <tr>
@@ -40,7 +22,7 @@
                     <th>値段</th>
                     <th>評価</th>
                     <th>メモ</th>
-                    <th>ブックマークボタン</th>
+                    <th>登録解除</th>
                 </tr>
             </thead>
             <tbody>
@@ -48,19 +30,26 @@
                 <tr>
                     <td>
                     @if($book->image == null)
-                        <img src="noImage/noimage.png" width="75px">
+                        <img src="/noImage/noimage.png" width="75px">
                     @else
-                        <img src="upload/{{$book->image}}" width="75px"> 
+                        <img src="/upload/{{$book->image}}" width="75px"> 
                     @endif
                     </td> 
                     <!--本のタイトルを押すと、その本の詳細ページに飛ぶようにした。-->
                     <td><a href="{{ route('books.show', ['book'=>$book->id]) }}">{{$book->title}}</td>
                     <td>{{ $book->price}}</td>
-                    <td>
-                    @include('rating.rating')
-                     </td>
+                    <td>@include('rating.rating')</td>
                     <td>{{ $book->memo}}</td>
-                    <td>@include('book_bookmarks.bookmark_button')</td>
+                    <td>@if (Auth::user()->is_bookmark($book->id))
+                    <!--もしも、認証ユーザーがブックマークしてる状態なのであれば…-->
+                    
+                        {{-- ブックマーク削除ボタンのフォーム --}}
+                       <form action="{{ route('bookmarks.unbookmark', ['book'=>$book->id]) }}" method="POST">
+                           @csrf
+                           <button id="unbookmarkSubmitkai" class="btn btn-danger">ブックマーク解除</button>
+                       </form>
+                    @endif
+                    </td>
                   
                 </tr>
                 
@@ -72,6 +61,6 @@
             </tbody>
         </table>
     @endif
-    {{ $books->links() }}
-@endif
+        </div>
+    </div>
 @endsection

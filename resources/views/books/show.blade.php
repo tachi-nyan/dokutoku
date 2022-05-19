@@ -4,12 +4,16 @@
 
 <!--bookから、それぞれを呼び出す。登録されたものが、表示されるはず。-->
 
-    <h1> {{ $book->title }} の詳細ページ</h1>
+    <h1 class="detailed_page_heading"> {{ $book->title }} の詳細ページ</h1>
 
-    <table class="table table-bordered">
-         <tr>
+ <table class="form-table　book_newly_registration">
+        <tr>
             <th>値段</th>
             <td>{{ $book->price }}</td>
+        </tr>
+        <tr>
+            <th>評価</th>
+            <td>@include('rating.rating')</td>
         </tr>
          <tr>
             <th>画像</th>
@@ -27,17 +31,30 @@
             <th>メモ</th>
             <td>{{ $book->memo }}</td>
         </tr>
+        
     </table>
     
     {{-- 本の編集ページへのリンク --}}
-    {!! link_to_route('books.edit', 'この本の情報を更新する', ['book' => $book->id], ['class' => 'btn btn-light']) !!}
+    
+    <div class="button01">
+        <a href="{{ route('books.edit', ['book'=>$book->id]) }}">この本の情報を更新する</a>
+    </div>
     
       {{-- 本の削除フォーム --}}
-    {!! Form::model($book, ['route' => ['books.destroy', $book->id], 'method' => 'delete']) !!}
    
-        <button id="deleteSubmit" class="btn btn-danger">削除</button>
-    {!! Form::close() !!}
+   <div class="button02red">
+        <form  id="deleteSubmit" action="{{ route('books.destroy', $book->id) }}" method="POST">
+      @csrf
+      本を削除する
+    </form>
+   </div>
+   
+    
+    
 
 <script src="{{ asset('/js/test.js') }}"></script>
 
+         
+            
+         
 @endsection
