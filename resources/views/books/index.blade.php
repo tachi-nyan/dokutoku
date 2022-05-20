@@ -2,6 +2,7 @@
 
 @section('content')
 
+ <input id="image_capacity_large_when_alert" type="hidden" value="{{session('message')}}" />
 
 <!--表には、何冊目、タイトル、値段を表示するようにしている。-->
 <!--データは、$booksから取得するようにしている。-->
