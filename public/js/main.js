@@ -1,3 +1,12 @@
+    $(window).on('load', function() {
+        var a =$('#image_capacity_large_when_alert').val();
+        if( a ){
+          alert('ファイルの容量が大きすぎます。もう一度必須項目を埋めた上で、2MB以下の画像をアップロードしてください。 ');  
+        }else{
+            return false;
+        }
+    });
+
     $('#createSubmit').on('click', function(){
         // jqueryにおける、クリックイベントの搭載の仕方。idがcreateSubmitということを、こういう形で表記する
        var result = window.confirm('登録してよろしいでしょうか？');
@@ -71,4 +80,5 @@ $('#unbookmarkSubmitkai').on('click', function(){
     //         return false;
     //         // これを書くことによって、処理をしないようにしている。
     //     }
-    // }
+    // 
+    

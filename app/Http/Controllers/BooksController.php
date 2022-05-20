@@ -69,7 +69,7 @@ class BooksController extends Controller
         
          // バリデーション
         $request->validate([
-            'image' => 'nullable|max:2048|mimes:jpg,jpeg,png,gif',
+            'image' => 'nullable|max:10240|mimes:jpg,jpeg,png,gif',
             'title' => 'required|max:100',
             'memo' => 'nullable|max:255',
             'rate' => 'required',

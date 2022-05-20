@@ -2,6 +2,10 @@
 
 @section('content')
 
+
+ <input id="image_capacity_large_when_alert" type="hidden" value="{{session('message')}}" />
+ 
+ 
 <!--本のタイトルを表示。$bookから、タイトルの値を持ってきている。-->
 <h1>{{ $book->title }} の更新ページ</h1>
 

@@ -2,6 +2,12 @@
 
 @section('content')
 
+
+    <input id="image_capacity_large_when_alert" type="hidden" value="{{session('message')}}" />
+            
+       
+        
+        
     <h1>本の新規登録ページ</h1>
     
  <!--ここは、動作は確認できたので、ちゃんとしたデザインにすることを最終の目標としたい。-->
