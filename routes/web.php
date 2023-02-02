@@ -11,44 +11,38 @@
 |
 */
 
-
-//聞きたいこと…コントローラーの設定方法
-//現在のエラー：booklist.blade.phpのコントローラーを作ったがどうやら、パラメーターが渡せていない
-// 色々変えてはみたが、うまくはいかなかったという現状。
-
+// トップページの表示
 Route::get('/', 'BooksController@index');
 
-// ユーザ登録に関するルーティング
+// ユーザ登録
 Route::get('signup', 'Auth\RegisterController@showRegistrationForm')->name('signup.get');
 Route::post('signup', 'Auth\RegisterController@register')->name('signup.post');
 
-// 認証に関するルーティング
+// ログイン、認証
 Route::get('login', 'Auth\LoginController@showLoginForm')->name('login');
 Route::post('login', 'Auth\LoginController@login')->name('login.post');
 Route::get('logout', 'Auth\LoginController@logout')->name('logout.get');
 
-//認証している人でなければならないルーティング設定　middleware auth でそれを指定している。
+// 認証している人でなければならないルーティング設定
 Route::group(['middleware' => ['auth']], function () {
 Route::get('books', 'BooksController@index')->name('books.index');
+
 // ユーザー一覧。showの補助ページ
-   // また、bookscontrolerのうち一部のみ使えることを記載している。resourceを使わずに表してみる。
 Route::get('books/create', 'BooksController@create')->name('books.create');
-//新規作成用のフォームページ
+// 新規作成用のフォームページ
 Route::get('books/booklist','BooksController@booklist')->name('books.booklist');
-
 Route::get('books/{book}','BooksController@show')->name('books.show');
-//個別詳細ページを表示する。その際、その個別の本のidを取ってくる必要があるため、{id}を指定する。
+// 個別詳細ページ
 Route::post('books','BooksController@store')->name('books.store');
-// 新規登録を処理する。ここで、idはこれから付与するから、idを指定する必要がない。
+// 新規登録
 Route::post('books/{book}/update', 'BooksController@update')->name('books.update');
-//更新処理。
+// 更新処理
 Route::post('books/{book}/destroy', 'BooksController@destroy')->name('books.destroy');
-//削除処理。
+// 削除処理
 Route::get('books/{book}/edit', 'BooksController@edit')->name('books.edit');
-// edit: 更新用のフォームページ。name は「名前つきルート」というもので、特定のルートへのURLを生成したり、リダイレクトしたりする。
 
-Route::get('bookmarks', 'BooksController@bookmarks')->name('books.bookmarks');  
-
+// edit: 更新用のフォームページ。
+Route::get('bookmarks', 'BooksController@bookmarks')->name('books.bookmarks');
 Route::post('bookmark/{book}', 'BookmarksController@store')->name('bookmarks.bookmark');
 Route::post('unbookmark/{book}', 'BookmarksController@destroy')->name('bookmarks.unbookmark');
 });

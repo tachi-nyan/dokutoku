@@ -3,16 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
-use App\Book; // これを追加することで、Bookモデルのデータを使用することになる
-
-use App\User;
-use Illuminate\Support\Facades\Auth;//ユーザーIDをなんとかする
-
+use App\Book;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Database\Eloquent\SoftDeletes;
-
-// use App\DB;
 
 
 
@@ -24,7 +18,7 @@ class BooksController extends Controller
         if(!Auth::id()){
             return view('welcome');
         }else{
-            
+
         $user = Auth::id();
         //追加した本の一覧をidの降順で取得。
         //データを取得するコードが必要なので、書いた。
@@ -35,7 +29,7 @@ class BooksController extends Controller
         // ユーザーごとの本の値段の合計額を集計する、sumを定義する。
         $sum = Book::where('user_id',Auth::id())->sum('price');
         // ビューでそれを表示する。resources/views/books/index.blade.phpを意味する。
-       
+
         return view('books.index', [
             // 渡したいデータの配列を指定する。$books に入ったデータをViewに渡すためである。
             'books' => $books,
@@ -44,29 +38,29 @@ class BooksController extends Controller
         ]);
         }
     }
-    
-    
+
+
     // 「新規登録画面表示処理」を書いていく。
     public function create()
     {
-        
+
         // フォームの入力項目のために $book = new Book; でインスタンスを作成している。
         $book = new Book;
-        
+
         // 本の新規登録ビューを表示。
         return view('books.create', [
             'book' => $book,
         ]);
     }
-    
-    
-    
 
-    
+
+
+
+
      // postでbooks/にアクセスされた場合の「新規登録処理」
     public function store(Request $request)
     {
-        
+
          // バリデーション
         $request->validate([
             'image' => 'nullable|max:10240|mimes:jpg,jpeg,png,gif',
@@ -75,8 +69,8 @@ class BooksController extends Controller
             'rate' => 'required',
             'price' => 'required|integer|max:100000000',
         ]);
-        
-        
+
+
         //画像のアップロード機能を表す。
         //fileに出された名前をとってきて、それが空かそうでないかで分岐をする。
          $file = $request->file('image');
@@ -87,7 +81,7 @@ class BooksController extends Controller
     }else{
         $filename = null;
     }
-   
+
         $book = new Book;
         $book->title = $request->title;
         $book->memo = $request->memo;
@@ -96,12 +90,12 @@ class BooksController extends Controller
         $book->image = $filename;
         $book->user_id = Auth::id();
         $book->save();
-        
-         
+
+
         // トップページへリダイレクトさせる
         return redirect('/');
     }
-      
+
 
     // getでbooks/（任意のid）にアクセスされた場合の「取得表示処理」
     public function show($id)
@@ -110,7 +104,7 @@ class BooksController extends Controller
         $book = Book::findOrFail($id);
 
         // 詳細ビューでそれを表示
-        
+
         if (\Auth::id() === $book->user_id) {
             return view('books.show', [
             'book' => $book,
@@ -118,7 +112,7 @@ class BooksController extends Controller
         }
           // トップページへリダイレクトさせる
         return redirect('/');
-        
+
     }
 
     // 「更新画面表示処理」
@@ -133,7 +127,7 @@ class BooksController extends Controller
             'book' => $book,
         ]);
         }
-         
+
          // トップページへリダイレクトさせる
         return redirect('/');
     }
@@ -149,7 +143,7 @@ class BooksController extends Controller
             'memo' => 'nullable|max:255',
             'price' => 'required|integer|max:100000000',
         ]);
-        
+
          //画像のアップロード機能を表す。
         //fileに出された名前をとってきて、それが空かそうでないかで分岐をする。
          $file = $request->file('image');
@@ -160,8 +154,8 @@ class BooksController extends Controller
     }else{
         $filename = null;
     }
-     
-  
+
+
         // idの値で検索して取得
         $book = Book::findOrFail($id);
         // それぞれを更新
@@ -187,7 +181,7 @@ class BooksController extends Controller
          // トップページへリダイレクトさせる
         return redirect('/');
     }
-    
+
     /**
      * ユーザのブックマーク一覧ページを表示するアクション。
      *
@@ -196,10 +190,10 @@ class BooksController extends Controller
      */
     public function bookmarks()
     {
-        
+
         // ユーザーを識別する。
         $user = Auth::user();
-        
+
         // ユーザーのブックマーク一覧を取得する。
         $bookmarks = $user->bookmarks()->orderBy('id', 'desc')->paginate(10);
 
@@ -209,5 +203,5 @@ class BooksController extends Controller
             'user' => $user,
         ]);
     }
-    
+
 }
